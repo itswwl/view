@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<base href="/" />
+<title>管理员征信后台</title>
+<link href="/css/common.css" rel="stylesheet" />
+<link href="/css/boots.css" rel="stylesheet" />
+<script src="/js/jquery-1.7.2.min.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="/js/jquery-outerhtml.js"></script>
+<script type="text/javascript" src="/js/jquery-serializeJson.js"></script>
+<script type="text/javascript" src="/js/page.js"></script>
+<script type="text/javascript" src="/js/education.js"></script>
+</head>
+<body>
+	<div id="main">
+		<div class="content_pad">
+		<form class="screenForm" id="search">
+			<div class="searchTable">
+				<div class="screenBox">
+					<div class="searchOptions">
+						<ul>
+							<li>企业姓名：<input type="text" value="" name="degree" class="" /></li>
+							<li>是否显示： <select name="show1" class="inited">
+									<option value="全部">全部</option>
+									<option value="显示">显示</option>
+									<option value="不显示">不显示</option>
+							</select>
+							</li>
+							<li>是否会员： <select name="show2" class="inited">
+									<option value="全部">全部</option>
+									<option value="会员企业">会员企业</option>
+									<option value="非会员企业">非会员企业</option>
+							</select>
+							</li>
+							<li><button type="button" name="" class="btn btn-warning" id="searchBtn">查询</button></li>
+						</ul>
+					</div>
+					<div class="searchResult">
+						<ul>
+							<li><input type="checkbox" value="" name="" />&nbsp;全选</li>
+							<li><button type="sumbit" name="" class="btn btn-default">批量显示</button></li>
+							<li><button type="sumbit" name="" class="btn btn-default">批量隐藏</button></li>
+						</ul>
+					</div>
+				</div>
+				<table class="table-striped" cellpadding="0" cellspacing="0">
+					<col width="5%" />
+					<col width="" />
+					<col width="12%" />
+					<col width="8%" />
+					<thead>
+						<tr>
+							<th width="6%" class="taCenter">&nbsp;</th>
+							<th width="67%">用户ID</th>
+							<th width="16%">学位</th>
+							<th width="11%">学历</th>
+							<th width="11%">职位</th>
+							<th width="11%">班评</th>
+							<th width="11%">操作</th>
+						</tr>
+					</thead>
+					<tbody id="content">
+						<tr id="tr_tplid">
+                            	<td class="taCenter"><input type="checkbox" value="" name="" /></td>
+                                <td>tpl_rspersonaluserid</td>
+                                <td>tpl_degree</td>
+                                <td>tpl_qualification</td>
+                                <td>tpl_reterence</td>
+                                <td>tpl_reterencephone</td>
+                                <td><img class="mr15" id="d_tplid" src="/images/magnify.png" width="16" /><img class="mr15" id="e_tplid" src="/images/editor.png" width="16" /><img class="mr15" src="/images/delete.png" width="16" id="de_tplid"/><input type="hidden" value="v0" id="id_tplid"/></td>
+                         </tr>
+					</tbody>
+				</table>
+				<div class="paginationBox clearfix">
+					<div class="pagNumber fl">
+						共<span class="darkred">12358</span>条记录，共<span class="totalPage darkred">15</span>页<input type="text"
+							value="" name="" class="inputNumber" id="jump" />跳转
+					</div>
+					<ul class="pagination ri">
+						<!-- class="disabled" -->
+						<li><a aria-label="Previous" href="#"
+							id="pre"><b aria-hidden="true">&lt;&lt;</b></a></li>
+						<li class="active"><a href="#">1</a></li>
+						<li><a href="#">2</a></li>
+						<li><a href="#">3</a></li>
+						<li><a href="#">4</a></li>
+						<li><a href="#">5</a></li>
+						<li><a aria-label="Next" href="#" id="next"><b
+								aria-hidden="true">&gt;&gt;</b></a></li>
+					</ul>
+					<input type="hidden" id="page" name="number" value="1" /> 
+					<!-- <input type="hidden" id="totalPage" name="totalPage" value="1" /> -->
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

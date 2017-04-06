@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+
+<div>
+
+    <input type="checkbox" class="changeArr" value="1" checked="checked"/>值1
+    <input type="checkbox" class="changeArr" value="2" />值2
+    <input type="checkbox" class="changeArr" value="3" checked="checked"/>值3
+    <input type="checkbox" class="changeArr" value="4" />值4
+    <input type="checkbox" class="changeArr" value="5" checked="checked"/>值5
+    <input type="checkbox" class="changeArr" value="6" />值6
+    <input type="checkbox" class="changeArr" value="7" checked="checked"/>值7
+    <input type="checkbox" class="changeArr" value="8" />值8
+    <input type="checkbox" class="changeArr" value="9" />值9
+    <input type="checkbox" class="changeArr" value="10" checked="checked"/>值10
+
+</div>
+    <!--<script src="../jQuery/1.8.0/jquery-1.8.0.min.js"></script>-->
+   <script src="https://code.jquery.com/jquery-1.8.0.js" integrity="sha256-00Fh8tkPAe+EmVaHFpD+HovxWk7b97qwqVi7nLvjdgs=" 
+           crossorigin="anonymous">
+    </script>
+   
+<script type="text/javascript">
+
+    var oldArr = [1,3,5,7,10];
+
+    var addArr = [];
+
+    var delArr = [];
+
+    function containsVal(arr,val){
+        return $.inArray(val,arr);
+    }
+
+    function removeVal(arr,val){
+        var index = containsVal(arr,val);
+        if(index > -1){
+            arr.splice($.inArray(val,arr),1)
+        }
+    }
+
+    function intersection(addArr,oldArr){
+        var i = 0;
+        var index = -1;
+        for(;i < addArr.length;i++){
+           index =  containsVal(oldArr,addArr[i]);
+            if(index>-1){
+                removeVal(addArr,addArr[i]);
+            }
+        }
+    }
+
+    function difference(delArr,oldArr){
+        var i = 0;
+        var index = -1;
+        for(;i < delArr.length;i++){
+            index =  containsVal(oldArr,delArr[i]);
+            if(index==-1){
+                removeVal(delArr,delArr[i]);
+            }
+        }
+    }
+
+    $(".changeArr").off("change").on("change",function(){
+
+        var val = parseInt($(this).val());
+        var isChecked = $(this).is(":checked");
+
+        removeVal(addArr,val);//将当前改变的checkbox在add中移除
+        removeVal(delArr,val);//将当前改变的checkbox在del中移除
+        if(isChecked){
+            addArr.push(val);
+        }else{
+            delArr.push(val);
+        }
+        intersection(addArr,oldArr);//将add中存在old中的值移除
+        difference(delArr,oldArr);//将del中不存在old中的值移除
+
+        console.info(oldArr);
+        console.info(addArr);
+        console.info(delArr);
+    });
+
+</script>
+</body>
+</html>

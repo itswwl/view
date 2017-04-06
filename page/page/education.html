@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<base href="/" />
+<title>管理员征信后台</title>
+<link href="/css/common.css" rel="stylesheet" />
+<link href="/css/boots.css" rel="stylesheet" />
+<link href="/css/base.css" rel="stylesheet" />
+<script src="/js/jquery-1.7.2.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="/js/tc.min.js"></script>
+<script type="text/javascript" src="/js/menu.js"></script>
+
+<!-- Jquery ajax 加载数据 -->
+<script type="text/javascript" src="/js/jquery-outerhtml.js"></script>
+<script type="text/javascript" src="/js/jquery-serializeJson.js"></script>
+<script type="text/javascript" src="/js/jquery-form.js"></script>
+<script type="text/javascript" src="/js/page.js"></script>
+<script type="text/javascript" src="/js/education.js"></script>
+<style type="text/css">
+#detail3{position:absolute;width:860px; padding-bottom:10px; border-radius: 5px; border:1px solid #ccc;background:#fff; display:none;}
+</style>
+</head>
+<body>
+<div th:replace="guide::topmenu"></div>
+<div th:replace="guide::leftmenu"></div>
+<div class="common_width fixedTop">
+	<div id="main">
+        <div class="content_pad">
+        	<form class="screenForm"  id="search">
+                <div class="screenBox">
+                	<div class="searchOptions">
+                        <ul>
+                            <li>企业姓名：<input type="text" value="" name="degree" class="" /></li>
+                            <li>是否显示：
+                            	<select name="show1" class="inited">
+                                	<option value="全部">全部</option>
+                                	<option value="显示">显示</option>
+                                	<option value="不显示">不显示</option>
+                                </select>
+                            </li>
+                            <li>是否会员：
+                            	<select name="show2" class="inited">
+                                	<option value="全部">全部</option>
+                                	<option value="会员企业">会员企业</option>
+                                	<option value="非会员企业">非会员企业</option>
+                                </select>
+                            </li>
+                            <li><button type="button" name="" class="btn btn-warning" id="searchBtn">查询</button></li>
+                         </ul>                          
+                    </div>
+                    <div class="searchResult">	
+                    	<ul>
+                        	<li><input type="checkbox" value="" name="" />&nbsp;全选</li>
+                        	<li><button type="sumbit" name="" class="btn btn-default">批量显示</button></li>
+                        	<li><button type="sumbit" name="" class="btn btn-default">批量隐藏</button></li>
+                        </ul>
+                 	</div>
+                 </div>
+                 <div class="searchTable">
+                 	<table class="table-striped" cellpadding="0" cellspacing="0">
+                    	<col width="5%" />
+                    	<col width="15%" />
+                    	<col width="15%" />
+                    	<col width="15%" />
+                    	<col width="15%" />
+                    	<col width="" />
+                    	<col width="11%" />
+                        <thead>
+                        	<tr>
+                             <th width="5%" class="taCenter">&nbsp;</th>
+                           	  <th width="15%">用户ID</th>
+							  <th width="15%">学位</th>
+							  <th width="15%">学历</th>
+							  <th width="15%">职位</th>
+							  <th width="">班评</th>
+                           	  <th width="11%">操作</th>
+                          </tr>
+                        </thead>
+                        <tbody id="content">                 	
+                            <tr id="tr_tplid">
+                            	<td class="taCenter"><input type="checkbox" value="" name="" /></td>
+                                <td>tpl_rspersonaluserid</td>
+                                <td>tpl_degree</td>
+                                <td>tpl_qualification</td>
+                                <td>tpl_duty</td>
+                                <td>tpl_classreview</td>
+                                <td><img class="mr15" id="d_tplid" src="/images/magnify.png" width="16" /><img class="mr15" id="e_tplid" src="/images/editor.png" width="16" /><img class="mr15" src="/images/delete.png" width="16" id="de_tplid"/><input type="hidden" value="v0" id="id_tplid"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="paginationBox clearfix">
+                    	<div class="pagNumber fl">共<span class="darkred">12358</span>条记录，共<span class="totalPage darkred">15</span>页<input type="text" value="" name="" class="inputNumber" id="jump"/>跳转</div>
+                          <ul class="pagination ri">
+                          <!-- class="disabled" -->
+                            <li ><a aria-label="Previous" href="#" id="pre"><b aria-hidden="true">&lt;&lt;</b></a></li>
+                            <li class="active"><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li><a aria-label="Next" href="#" id="next"><b aria-hidden="true">&gt;&gt;</b></a></li>
+                         </ul>
+                         <input type="hidden" id="page" name="page" value="1"/>
+                         <!-- <input type="hidden" id="totalPage" name="totalPage" value="1"/> -->
+                    </div>
+                 </div>
+            </form>
+        </div>
+    	<button type="button" name="" class="btn btn-warning" id="addBtn">添加</button>
+    </div>
+</div>
+
+<div id="detail">
+<div class="titlePop">企业信息<span class="close"><img src="/images/close_pop.gif" /></span></div>
+	<div class="popBox popOverflow">
+    	<table class="popTable" cellpadding="0" cellspacing="0">
+        	<col width="12%" />
+        	<col width="88%" />
+            <tbody id="pingjia">
+            	<tr>
+                	<th>公司名称：</th>
+                    <td>安徽金宝马家具集团有限公司</td>
+                </tr>
+            	<tr>
+                	<th>业绩描述：</th>
+                    <td>工作认真刻苦，服务态度非常好，使经理在XXXXX的时候没有后顾之忧；工作积极，热情周到，有一定的领导能力，专业技能业务水平优秀，业务水平也在不断提高，关心每一位合鑫人，是我们大家学习的榜样；能胜任本职工作，爱岗敬业、乐于助人，</td>
+                </tr>
+            	<tr>
+                	<th>公司评价：</th>
+                    <td>工作认真刻苦，服务态度非常好，使经理在XXXXX的时候没有后顾之忧；工作积极，热情周到，有一定的领导能力，专业技能业务水平优秀，业务水平也在不断提高，关心每一位合鑫人，是我们大家学习的榜样；能胜任本职工作，爱岗敬业、乐于助人，与同事相处融洽，服从整体安排，对本职工作兢兢业业，锐意进取，起榜样作用，为我们树立良好形象。</td>
+                </tr>
+            	<tr>
+                	<th>公司评价：</th>
+                    <td>工作认真刻苦，服务态度非常好，使经理在XXXXX的时候没有后顾之忧；工作积极，热情周到，有一定的领导能力，专业技能业务水平优秀，业务水平也在不断提高，关心每一位合鑫人，是我们大家学习的榜样；能胜任本职工作，爱岗敬业、乐于助人，与同事相处融洽，服从整体安排，对本职工作兢兢业业，锐意进取，起榜样作用，为我们树立良好形象。</td>
+                </tr>
+            	<tr>
+                	<th>公司评价：</th>
+                    <td>工作认真刻苦，服务态度非常好，使经理在XXXXX的时候没有后顾之忧；工作积极，热情周到，有一定的领导能力，专业技能业务水平优秀，业务水平也在不断提高，关心每一位合鑫人，是我们大家学习的榜样；能胜任本职工作，爱岗敬业、乐于助人，与同事相处融洽，服从整体安排，对本职工作兢兢业业，锐意进取，起榜样作用，为我们树立良好形象。</td>
+                </tr>
+            	<tr>
+                	<th>公司评价：</th>
+                    <td>工作认真刻苦，服务态度非常好，使经理在XXXXX的时候没有后顾之忧；工作积极，热情周到，有一定的领导能力，专业技能业务水平优秀，业务水平也在不断提高，关心每一位合鑫人，是我们大家学习的榜样；能胜任本职工作，爱岗敬业、乐于助人，与同事相处融洽，服从整体安排，对本职工作兢兢业业，锐意进取，起榜样作用，为我们树立良好形象。</td>
+                </tr>
+            	<tr>
+                	<th>公司评价：</th>
+                    <td>工作认真刻苦，服务态度非常好，使经理在XXXXX的时候没有后顾之忧；工作积极，热情周到，有一定的领导能力，专业技能业务水平优秀，业务水平也在不断提高，关心每一位合鑫人，是我们大家学习的榜样；能胜任本职工作，爱岗敬业、乐于助人，与同事相处融洽，服从整体安排，对本职工作兢兢业业，锐意进取，起榜样作用，为我们树立良好形象。</td>
+                </tr>
+            	<tr>
+                	<th>公司评价：</th>
+                    <td>工作认真刻苦，服务态度非常好，使经理在XXXXX的时候没有后顾之忧；工作积极，热情周到，有一定的领导能力，专业技能业务水平优秀，业务水平也在不断提高，关心每一位合鑫人，是我们大家学习的榜样；能胜任本职工作，爱岗敬业、乐于助人，与同事相处融洽，服从整体安排，对本职工作兢兢业业，锐意进取，起榜样作用，为我们树立良好形象。</td>
+                </tr>
+ 	            </tbody>
+        </table>  
+        </div>
+
+</div>
+<div id="detail2">
+<div class="titlePop">修改信息<span class="close"><img src="/images/close_pop.gif" /></span></div>
+	<div class="popBox">
+	<form id="editForm" name="editForm">
+    	<table class="popTable" cellpadding="0" cellspacing="0">
+        	<col width="10%" />
+        	<col width="23%" />
+        	<col width="10%" />
+        	<col width="23%" />
+        	<col width="10%" />
+        	<col width="24%" />
+            <tbody id="edit">
+            	<tr>
+                	<th>姓名</th>
+                    <td><input type="text" value="" name="rspersonaluserid" class="" id="edit_rspersonaluserid" /></td>
+                    <th></th>
+                    <td>
+                    </td>
+                    <th></th>
+                    <td>
+                    </td>
+                </tr>
+            	<tr>
+                	<th>学历</th>
+                    <td><input type="text" value="" name="qualification" class="" id="edit_qualification" /></td>
+                   	<th>学位</th>
+                    <td><input type="text" value="" name="degree" class="" id="edit_degree" /></td>	
+                    <th>学历类型</th>
+                    <td><input type="text" value="" name="qualificationtype" class="" id="edit_qualificationtype" /></td>
+                </tr>
+                <tr>
+                	<th>开始时间</th>
+                    <td><input type="text" value="" name="starttime" class="" id="edit_starttime" /></td>
+                   	<th>毕业时间</th>
+                    <td><input type="text" value="" name="endtime" class="" id="edit_endtime" /></td>	
+                    <th>离校时间</th>
+                    <td><input type="text" value="" name="leavltime" class="" id="edit_leavltime" /></td>
+                </tr>
+                <tr>
+                	<th>学校</th>
+                    <td><input type="text" value="" name="schoolid" class="" id="edit_schoolid" /></td>
+                   	<th>学院</th>
+                    <td><input type="text" value="" name="collegeid" class="" id="edit_collegeid" /></td>	
+                    <th>系</th>
+                    <td><input type="text" value="" name="departmentid" class="" id="edit_departmentid" /></td>
+                </tr>
+                <tr>
+                	<th>专业</th>
+                    <td><input type="text" value="" name="scienceid" class="" id="edit_scienceid" /></td>
+                   	<th>班级</th>
+                    <td><input type="text" value="" name="classid" class="" id="edit_classid" /></td>	
+                    <th>职务</th>
+                    <td><input type="text" value="" name="duty" class="" id="edit_duty" /></td>
+                </tr>
+                <tr>
+                	<th>班评</th>
+                    <td colspan="5"><textarea name="classreview" id="edit_classreview" style="width: 100%"></textarea></td>
+                </tr>
+                <tr>
+                	<th>校评</th>
+                    <td colspan="5"><textarea name="schoolreview" id="edit_schoolreview" style="width: 100%"></textarea></td>
+                </tr>
+                <tr>
+                	<th>证明人</th>
+                    <td><input type="text" value="" name="reterence" class="" id="edit_reterence" /></td>
+                   	<th>证明人电话</th>
+                    <td><input type="text" value="" name="reterencephone" class="" id="edit_reterencephone" /></td>	
+                    <th>序号</th>
+                    <td><input type="text" value="" name="sortnum" class="" id="edit_sortnum" /></td>
+                </tr>
+                <tr>
+                	<th>证明人邮箱</th>
+                    <td><input type="text" value="" name="reterenceemail" class="" id="edit_reterenceemail" /></td>
+                   	<th>证明人QQ</th>
+                    <td><input type="text" value="" name="reterenceqq" class="" id="edit_reterenceqq" /></td>	
+                    <th>证明人微信</th>
+                    <td><input type="text" value="" name="reterencechart" class="" id="edit_reterencechart" /></td>
+                </tr>
+                
+ 	            </tbody>
+        </table> 
+        <input type="hidden" value="" id="edit_id" name="id"/>
+        </form>
+    <div class="btnSumbit"><button type="sumbit" name="" class="btn btn-success" id="editBtn">更换</button><button type="sumbit" name="" class="btn btn-danger">删除档案</button><button type="sumbit" name="" class="btn btn-default">屏蔽</button></div>
+        </div>
+
+</div>
+
+<div id="detail3">
+<div class="titlePop">修改信息<span class="close"><img src="/images/close_pop.gif" /></span></div>
+	<div class="popBox">
+	<form id="addForm" name="addForm">
+    	<table class="popTable" cellpadding="0" cellspacing="0">
+        	<col width="10%" />
+        	<col width="23%" />
+        	<col width="10%" />
+        	<col width="23%" />
+        	<col width="10%" />
+        	<col width="24%" />
+            <tbody id="edit">
+            	<tr>
+                	<th>姓名</th>
+                    <td><input type="text" value="" name="rspersonaluserid" class="" id="add_rspersonaluserid" /></td>
+                    <th></th>
+                    <td>
+                    </td>
+                    <th></th>
+                    <td>
+                    </td>
+                </tr>
+            	<tr>
+                	<th>学历</th>
+                    <td><input type="text" value="" name="qualification" class="" id="add_qualification" /></td>
+                   	<th>学位</th>
+                    <td><input type="text" value="" name="degree" class="" id="add_degree" /></td>	
+                    <th>学历类型</th>
+                    <td><input type="text" value="" name="qualificationtype" class="" id="add_qualificationtype" /></td>
+                </tr>
+                <tr>
+                	<th>开始时间</th>
+                    <td><input type="text" value="" name="starttime" class="" id="add_starttime" /></td>
+                   	<th>毕业时间</th>
+                    <td><input type="text" value="" name="endtime" class="" id="add_endtime" /></td>	
+                    <th>离校时间</th>
+                    <td><input type="text" value="" name="leavltime" class="" id="add_leavltime" /></td>
+                </tr>
+                <tr>
+                	<th>学校</th>
+                    <td><input type="text" value="" name="schoolid" class="" id="add_schoolid" /></td>
+                   	<th>学院</th>
+                    <td><input type="text" value="" name="collegeid" class="" id="add_collegeid" /></td>	
+                    <th>系</th>
+                    <td><input type="text" value="" name="departmentid" class="" id="add_departmentid" /></td>
+                </tr>
+                <tr>
+                	<th>专业</th>
+                    <td><input type="text" value="" name="scienceid" class="" id="add_scienceid" /></td>
+                   	<th>班级</th>
+                    <td><input type="text" value="" name="classid" class="" id="add_classid" /></td>	
+                    <th>职务</th>
+                    <td><input type="text" value="" name="duty" class="" id="add_duty" /></td>
+                </tr>
+                <tr>
+                	<th>班评</th>
+                    <td colspan="5"><textarea name="classreview" id="add_classreview" style="width: 100%"></textarea></td>
+                </tr>
+                <tr>
+                	<th>校评</th>
+                    <td colspan="5"><textarea name="schoolreview" id="add_schoolreview" style="width: 100%"></textarea></td>
+                </tr>
+                <tr>
+                	<th>证明人</th>
+                    <td><input type="text" value="" name="reterence" class="" id="add_reterence" /></td>
+                   	<th>证明人电话</th>
+                    <td><input type="text" value="" name="reterencephone" class="" id="add_reterencephone" /></td>	
+                    <th>序号</th>
+                    <td><input type="text" value="" name="sortnum" class="" id="add_sortnum" /></td>
+                </tr>
+                <tr>
+                	<th>证明人邮箱</th>
+                    <td><input type="text" value="" name="reterenceemail" class="" id="add_reterenceemail" /></td>
+                   	<th>证明人QQ</th>
+                    <td><input type="text" value="" name="reterenceqq" class="" id="add_reterenceqq" /></td>	
+                    <th>证明人微信</th>
+                    <td><input type="text" value="" name="reterencechart" class="" id="add_reterencechart" /></td>
+                </tr>
+                
+ 	            </tbody>
+        </table> 
+        </form>
+    <div class="btnSumbit"><button type="sumbit" name="" class="btn btn-success" id="addBtn2">更换</button><button type="sumbit" name="" class="btn btn-danger">删除档案</button><button type="sumbit" name="" class="btn btn-default">屏蔽</button></div>
+        </div>
+
+</div>
+
+<div th:replace="guide::bottomjs"></div>
+</body>
+</html>
